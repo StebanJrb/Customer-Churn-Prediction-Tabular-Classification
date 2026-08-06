@@ -1,0 +1,13 @@
+numpy>=2.1
+pandas>=2.2
+matplotlib>=3.10
+seaborn>=0.13
+scikit-learn>=1.7
+scipy>=1.15
+
+# Optional: only needed for the association-rules section of scripts/run_unit3_unsupervised.py
+# (Apriori / FP-Growth). That script degrades gracefully and skips this section if missing.
+mlxtend>=0.23
+
+# Optional: only needed to open notebooks/KMeans_Churn_Segmentacion.ipynb
+jupyter>=1.0

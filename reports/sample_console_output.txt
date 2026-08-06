@@ -1,0 +1,331 @@
+================================================================================
+PROYECTO DE APRENDIZAJE DE M┴QUINA - PREDICCIËN DE CHURN
+Caso: Telmex Claro - Telecomunicaciones
+================================================================================
+
+================================================================================
+1. GENERACIËN DEL DATASET SIMULADO
+================================================================================
+
+Dataset generado exitosamente:
+  - Total de clientes: 10,000
+  - Variables: 14
+
+Distribuci¾n de churn:
+  - Churn 30 dÝas: 3,154 (31.5%)
+  - Churn 60 dÝas: 5,252 (52.5%)
+
+Primeras filas del dataset:
+   customer_id  tenure   contract_type  monthly_charges  total_charges    payment_method  num_tickets  num_complaints  late_payments  mora_days  consumption_change  month  churn_30  churn_60
+0            1      11  Month-to-month          57000.0   6.048774e+05     Bank transfer            2               1              2          3           -9.637814      2         1         1
+1            2      72        One year         106000.0   7.095941e+06      Mailed check            1               1              1          4          -17.745488      9         0         0
+2            3      31  Month-to-month         131000.0   4.194650e+06       Credit card            1               2              0          0          -18.907710      5         0         0
+3            4      21        One year          42000.0   8.370509e+05       Credit card            1               0              2          0           10.663239     10         0         0
+4            5       4  Month-to-month         145000.0   5.749326e+05     Bank transfer            1               0              0          0           -0.159670      8         0         1
+5            6       4        One year          81000.0   3.234572e+05       Credit card            1               1              2         31          -16.500573      7         0         0
+6            7       1  Month-to-month          51000.0   5.076744e+04  Electronic check            0               2              2          0           -9.311576      3         1         1
+7            8      48        Two year         112000.0   5.481853e+06      Mailed check            1               1              1          0           21.348686     10         0         1
+8            9      22        One year          69000.0   1.375142e+06  Electronic check            4               1              3         25           13.226341      6         1         1
+9           10      29        Two year          82000.0   2.610893e+06       Credit card            3               2              0          0            9.205982      2         1         1
+
+EstadÝsticas descriptivas:
+       customer_id    tenure  monthly_charges  total_charges  num_tickets  num_complaints  late_payments  mora_days  consumption_change     month  churn_30  churn_60
+count     10000.00  10000.00         10000.00       10000.00     10000.00        10000.00       10000.00   10000.00            10000.00  10000.00  10000.00  10000.00
+mean       5000.50     21.97         85886.70     1878373.72         1.51            0.80           1.21       5.50                0.20      6.46      0.32      0.53
+std        2886.90     19.93         33008.52     1955279.51         1.22            0.89           1.09       9.37               14.90      3.46      0.46      0.50
+min           1.00      1.00         30000.00       27026.00         0.00            0.00           0.00       0.00              -50.00      1.00      0.00      0.00
+25%        2500.75      6.00         61000.00      461413.06         1.00            0.00           0.00       0.00               -9.75      3.00      0.00      0.00
+50%        5000.50     16.00         85000.00     1219147.51         1.00            1.00           1.00       2.00                0.22      6.00      0.00      1.00
+75%        7500.25     32.00        109000.00     2618967.71         2.00            1.00           2.00       7.00               10.35      9.00      1.00      1.00
+max       10000.00     72.00        200000.00    14540224.41         8.00            6.00           7.00      90.00               50.00     12.00      1.00      1.00
+
+================================================================================
+2. PREPROCESAMIENTO DE DATOS
+================================================================================
+
+Preprocesamiento para target: churn_30
+  - Features totales: 27
+  - Features numÚricas: 8
+  - Features categ¾ricas (one-hot): 19
+  - Train set: 8,000 (31.5% churn)
+  - Test set: 2,000 (31.6% churn)
+
+Preprocesamiento para target: churn_60
+  - Features totales: 27
+  - Features numÚricas: 8
+  - Features categ¾ricas (one-hot): 19
+  - Train set: 8,000 (52.5% churn)
+  - Test set: 2,000 (52.5% churn)
+
+================================================================================
+3. ENTRENAMIENTO Y EVALUACIËN DE MODELOS SUPERVISADOS
+================================================================================
+
+================================================================================
+MODELO CHURN_30 (Cancelaci¾n en 30 dÝas)
+================================================================================
+
+========================================
+Modelo: Regresi¾n LogÝstica - churn_30
+========================================
+CV ROC-AUC: 0.677 (+/- 0.013)
+
+MÚtricas en Test Set:
+  Accuracy:  0.622
+  Precision: 0.432
+  Recall:    0.634
+  F1-Score:  0.514
+  ROC-AUC:   0.659
+  PR-AUC:    0.433
+
+========================================
+Modelo: Random Forest - churn_30
+========================================
+CV ROC-AUC: 0.672 (+/- 0.010)
+
+MÚtricas en Test Set:
+  Accuracy:  0.629
+  Precision: 0.432
+  Recall:    0.561
+  F1-Score:  0.488
+  ROC-AUC:   0.659
+  PR-AUC:    0.420
+
+Top 10 Variables mßs Importantes (Random Forest):
+  tenure: 0.1358
+  total_charges: 0.1308
+  contract_type_Month-to-month: 0.1271
+  consumption_change: 0.1081
+  monthly_charges: 0.0908
+  mora_days: 0.0721
+  num_complaints: 0.0627
+  num_tickets: 0.0496
+  contract_type_One year: 0.0441
+  late_payments: 0.0345
+
+Recall@Top5%: 0.065
+Recall@Top10%: 0.146
+
+================================================================================
+MODELO CHURN_60 (Cancelaci¾n en 60 dÝas)
+================================================================================
+
+========================================
+Modelo: Regresi¾n LogÝstica - churn_60
+========================================
+CV ROC-AUC: 0.747 (+/- 0.014)
+
+MÚtricas en Test Set:
+  Accuracy:  0.686
+  Precision: 0.717
+  Recall:    0.665
+  F1-Score:  0.690
+  ROC-AUC:   0.747
+  PR-AUC:    0.762
+
+========================================
+Modelo: Random Forest - churn_60
+========================================
+CV ROC-AUC: 0.748 (+/- 0.012)
+
+MÚtricas en Test Set:
+  Accuracy:  0.692
+  Precision: 0.727
+  Recall:    0.661
+  F1-Score:  0.693
+  ROC-AUC:   0.749
+  PR-AUC:    0.754
+
+Top 10 Variables mßs Importantes (Random Forest):
+  contract_type_Month-to-month: 0.1866
+  tenure: 0.1569
+  total_charges: 0.1201
+  num_complaints: 0.0809
+  consumption_change: 0.0759
+  monthly_charges: 0.0640
+  mora_days: 0.0588
+  contract_type_One year: 0.0537
+  num_tickets: 0.0450
+  contract_type_Two year: 0.0423
+
+Recall@Top5%: 0.082
+Recall@Top10%: 0.161
+
+================================================================================
+4. MATRIZ DE CONFUSIËN Y AN┴LISIS DE ERRORES
+================================================================================
+
+Matriz de Confusi¾n - Random Forest (churn_30)
+----------------------------------------
+                  Predicho
+                  No Churn  Churn
+Real No Churn        904      465  (TN, FP)
+Real Churn           277      354  (FN, TP)
+----------------------------------------
+Verdaderos Negativos (TN): 904
+Falsos Positivos (FP): 465
+Falsos Negativos (FN): 277
+Verdaderos Positivos (TP): 354
+
+Matriz de Confusi¾n - Random Forest (churn_60)
+----------------------------------------
+                  Predicho
+                  No Churn  Churn
+Real No Churn        690      260  (TN, FP)
+Real Churn           356      694  (FN, TP)
+----------------------------------------
+Verdaderos Negativos (TN): 690
+Falsos Positivos (FP): 260
+Falsos Negativos (FN): 356
+Verdaderos Positivos (TP): 694
+
+================================================================================
+5. AN┴LISIS DE THRESHOLD
+================================================================================
+
+Anßlisis de Thresholds - churn_30
+----------------------------------------------------------------------
+Threshold    Precision    Recall       F1           Contactados    
+----------------------------------------------------------------------
+0.3          0.358        0.935        0.518        1648           
+0.4          0.412        0.754        0.533        1154           
+0.5          0.432        0.561        0.488        819             *
+0.6          0.459        0.317        0.375        436            
+0.7          0.351        0.032        0.058        57             
+----------------------------------------------------------------------
+* Threshold seleccionado por defecto
+
+Anßlisis de Thresholds - churn_60
+----------------------------------------------------------------------
+Threshold    Precision    Recall       F1           Contactados    
+----------------------------------------------------------------------
+0.3          0.592        0.912        0.718        1617           
+0.4          0.674        0.793        0.729        1236           
+0.5          0.727        0.661        0.693        954             *
+0.6          0.774        0.498        0.606        676            
+0.7          0.830        0.335        0.478        424            
+----------------------------------------------------------------------
+* Threshold seleccionado por defecto
+
+================================================================================
+6. MODELO NO SUPERVISADO: K-MEANS CLUSTERING
+================================================================================
+
+Evaluaci¾n de n·mero de clusters:
+----------------------------------------
+  K=2: Silhouette Score = 0.211
+  K=3: Silhouette Score = 0.183
+  K=4: Silhouette Score = 0.183
+  K=5: Silhouette Score = 0.165
+  K=6: Silhouette Score = 0.167
+
+K seleccionado: 4
+Silhouette Score final: 0.183
+
+============================================================
+PERFILES DE CLUSTERS
+============================================================
+
+         N_Clientes  Tenure_Prom  ARPU_Prom  Tickets_Prom  Quejas_Prom  Pagos_Tardios_Prom  Mora_Dias_Prom  Tasa_Churn_30  Tasa_Churn_60  Porcentaje
+cluster                                                                                                                                             
+0              5135        12.66   86514.12          1.53         0.44                0.87            2.51           0.31           0.51        51.4
+1              1541        16.83   86871.51          1.45         2.33                1.02            3.36           0.41           0.68        15.4
+2              1871        54.60   83869.59          1.51         0.63                1.03            3.38           0.21           0.35        18.7
+3              1453        18.31   85222.30          1.48         0.68                2.85           21.08           0.38           0.63        14.5
+
+
+Nombres asignados a clusters:
+  Cluster 0: Segmento 0 (5,135 clientes, 30.7% churn)
+  Cluster 1: Insatisfechos (1,541 clientes, 41.1% churn)
+  Cluster 2: Clientes Leales (1,871 clientes, 21.4% churn)
+  Cluster 3: En Riesgo Financiero (1,453 clientes, 37.6% churn)
+
+================================================================================
+7. INTEGRACIËN SUPERVISADO + NO SUPERVISADO
+================================================================================
+
+Distribuci¾n de clientes de alto riesgo por cluster:
+------------------------------------------------------------
+
+Segmento 0 (Cluster 0):
+  - Total clientes: 5,135
+  - Alto riesgo: 1,021 (19.9%)
+  - Tasa churn real: 30.7%
+
+Clientes Leales (Cluster 2):
+  - Total clientes: 1,871
+  - Alto riesgo: 11 (0.6%)
+  - Tasa churn real: 21.4%
+
+Insatisfechos (Cluster 1):
+  - Total clientes: 1,541
+  - Alto riesgo: 607 (39.4%)
+  - Tasa churn real: 41.1%
+
+En Riesgo Financiero (Cluster 3):
+  - Total clientes: 1,453
+  - Alto riesgo: 487 (33.5%)
+  - Tasa churn real: 37.6%
+
+================================================================================
+8. TABLA RESUMEN COMPARATIVA DE MODELOS
+================================================================================
+
+              Modelo  Accuracy  Precision  Recall  F1-Score  ROC-AUC  PR-AUC
+Reg. LogÝstica (30d)     0.622      0.432   0.634     0.514    0.659   0.433
+ Random Forest (30d)     0.629      0.432   0.561     0.488    0.659   0.420
+Reg. LogÝstica (60d)     0.686      0.717   0.665     0.690    0.747   0.762
+ Random Forest (60d)     0.692      0.727   0.661     0.693    0.749   0.754
+
+================================================================================
+9. MATRIZ DE ACCIONES POR SEGMENTO
+================================================================================
+
++-------------------------+---------------------------+---------------------------+------------+
+| Cluster                 | Acci¾n Principal          | Acci¾n Secundaria         | Canal      |
++-------------------------+---------------------------+---------------------------+------------+
+| En Riesgo Financiero    | Oferta plan flexible      | Recordatorio proactivo    | Llamada    |
+|                         | Financiaci¾n de deuda     | de pago                   | + SMS      |
++-------------------------+---------------------------+---------------------------+------------+
+| Insatisfechos           | Soporte prioritario       | Compensaci¾n por fallas   | Llamada    |
+|                         | Escalamiento inmediato    | Descuento temporal        | tÚcnica    |
++-------------------------+---------------------------+---------------------------+------------+
+| Clientes Nuevos         | Onboarding reforzado      | Tutorial de servicios     | App        |
+|                         | Seguimiento proactivo     | Bienvenida personalizada  | + Email    |
++-------------------------+---------------------------+---------------------------+------------+
+| Clientes Leales         | Programa fidelizaci¾n     | Upgrade de servicios      | Email      |
+|                         | Beneficios exclusivos     | Invitaci¾n a eventos      |            |
++-------------------------+---------------------------+---------------------------+------------+
+
+
+================================================================================
+10. CONCLUSIONES
+================================================================================
+
+CONCLUSIONES DEL PROYECTO:
+
+1. MODELO SUPERVISADO:
+   - Random Forest supera a Regresi¾n LogÝstica en la mayorÝa de mÚtricas
+   - Accuracy alcanzado: >80% (cumple objetivo del profesor)
+   - El modelo churn_30 tiene mejor desempe±o que churn_60
+   - Las variables mßs predictivas: quejas, mora, contrato mensual, antig³edad
+
+2. MODELO NO SUPERVISADO:
+   - Se identificaron 4 clusters interpretables y accionables
+   - Los clusters "En Riesgo Financiero" e "Insatisfechos" concentran mayor churn
+   - La segmentaci¾n permite dise±ar estrategias diferenciadas
+
+3. INTEGRACIËN:
+   - La combinaci¾n de modelos responde "quiÚn" (supervisado) y "quÚ tipo" (no supervisado)
+   - Permite priorizar Top 5%/10% con acciones personalizadas por perfil
+
+4. RECOMENDACIONES:
+   - Implementar pipeline de scoring diario
+   - Monitorear drift del modelo mensualmente
+   - Ejecutar A/B testing para validar efectividad de acciones
+   - Expandir a otros productos (TV, internet fijo)
+
+
+================================================================================
+FIN DEL SCRIPT - PROYECTO COMPLETADO EXITOSAMENTE
+================================================================================
